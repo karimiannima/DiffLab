@@ -18,7 +18,9 @@ Inspired by [GAN Lab](https://github.com/poloclub/ganlab).
 Train and explore **DDPM**, **Flow Matching**, **Score-based Generative Models (VE/VP SDE)**, and **Latent Diffusion Models (LDMs)** live in your browser on 2D distributions.
 
 <p align="center">
-  <a href="https://karimiannima.github.io/DiffLab/"><strong>🚀 Live Demo</strong></a>
+  <a href="https://raw.githack.com/karimiannima/DiffLab/main/index.html"><strong>🚀 Live Demo (works now)</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://karimiannima.github.io/DiffLab/"><strong>GitHub Pages</strong></a>
   &nbsp;·&nbsp;
   <a href="docs/CONCEPTS.md"><strong>Concepts</strong></a>
   &nbsp;·&nbsp;
