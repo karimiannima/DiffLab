@@ -114,22 +114,28 @@ DiffLab/
 
 ---
 
-## Citation / inspiration
+## References (Stable Diffusion & foundations)
 
-```
-}
-@inproceedings{song2021score,
-  title={Score-Based Generative Modeling through Stochastic Differential Equations},
-  author={Song, Yang and others}, booktitle={ICLR}, year={2021}
-}
+Full list with links: **[docs/CONCEPTS.md](docs/CONCEPTS.md#references)**.
+
+**Stable Diffusion / LDM**
+- Rombach et al., *High-Resolution Image Synthesis with Latent Diffusion Models* (CVPR 2022) — https://arxiv.org/abs/2112.10752  
+- Podell et al., *SDXL* (2023) — https://arxiv.org/abs/2307.01952  
+- Esser et al., *Scaling Rectified Flow Transformers* / SD3 (2024) — https://arxiv.org/abs/2403.03206  
+- Ho & Salimans, *Classifier-Free Diffusion Guidance* (2022) — https://arxiv.org/abs/2207.12598  
+- CompVis / Stability AI: https://github.com/CompVis/stable-diffusion  
+
+**Foundations**
+- Ho et al., DDPM (2020) — https://arxiv.org/abs/2006.11239  
+- Song et al., Score SDE (2021) — https://arxiv.org/abs/2011.13456  
+- Lipman et al., Flow Matching (2023) — https://arxiv.org/abs/2210.02747  
+
+```bibtex
 @inproceedings{rombach2022ldm,
   title={High-Resolution Image Synthesis with Latent Diffusion Models},
-  author={Rombach, Robin and others}, booktitle={CVPR}, year={2022}
-}
-@article{helbling2025diffusionexplorer,
-  title={Diffusion Explorer: Interactive Exploration of Diffusion Models},
-  author={Helbling, Alec and Chau, Duen Horng},
-  journal={arXiv:2507.01178}, year={2025}
+  author={Rombach, Robin and Blattmann, Andreas and Lorenz, Dominik and Esser, Patrick and Ommer, Bj{"o}rn},
+  booktitle={CVPR},
+  year={2022}
 }
 ```
 
