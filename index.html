@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DiffLab — Interactive Diffusion & Flow Matching</title>
-  <meta name="description" content="Interactive visual playground for DDPM, Flow Matching, velocity and score prediction — inspired by GAN Lab." />
+  <title>DiffLab — Diffusion, Score SDEs, Flow Matching & LDMs</title>
+  <meta name="description" content="Interactive playground for DDPM, Flow Matching, Score-based Generative Models (VE/VP SDE), and Latent Diffusion Models (LDMs) — inspired by GAN Lab." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -18,9 +18,12 @@
       <div class="logo">
         <div class="logo-badge">🌀</div>
         <div>DiffLab</div>
-        <span class="badge">v1.0</span>
+        <span class="badge">v1.1</span>
       </div>
-      <div class="tagline">Interactive playground for <strong>DDPM</strong>, <strong>Flow Matching</strong> & velocity fields — the diffusion sibling of GAN Lab</div>
+      <div class="tagline">
+        <strong>DDPM</strong> · <strong>Flow Matching</strong> · <strong>Score SDEs</strong> · <strong>LDMs</strong>
+        — interactive 2D lab inspired by GAN Lab
+      </div>
       <div class="header-links">
         <a href="https://github.com/karimiannima/DiffLab" target="_blank" rel="noopener">GitHub</a>
         <a href="https://github.com/poloclub/ganlab" target="_blank" rel="noopener">GAN Lab</a>
@@ -29,7 +32,6 @@
     </header>
 
     <div class="main">
-      <!-- Left controls -->
       <aside class="panel">
         <h2>Dataset</h2>
         <div class="section">
@@ -47,15 +49,20 @@
           </div>
         </div>
 
-        <h2>Objective</h2>
+        <h2>Objective / family</h2>
         <div class="section">
           <div class="chip-group" id="objectiveChips">
             <div class="chip active" data-value="fm">Flow Matching (v)</div>
             <div class="chip" data-value="eps">DDPM (ε)</div>
             <div class="chip" data-value="x0">x₀ pred</div>
-            <div class="chip" data-value="score">Score</div>
+            <div class="chip" data-value="score">Score DSM</div>
+            <div class="chip" data-value="score_ve">Score VE-SDE</div>
+            <div class="chip" data-value="score_vp">Score VP-SDE</div>
+            <div class="chip" data-value="ldm_eps">LDM · latent DDPM</div>
+            <div class="chip" data-value="ldm_fm">LDM · latent FM</div>
           </div>
           <div class="eq" id="eqBox"></div>
+          <div id="ldmInfo" class="info-box" style="display:none;margin-top:8px"></div>
         </div>
 
         <h2>Training</h2>
@@ -96,11 +103,10 @@
             <input type="range" id="depthRange" min="2" max="5" step="1" value="3" />
           </label>
           <button id="btnApplyArch" type="button" style="width:100%;margin-top:6px">Apply & rebuild</button>
-          <p class="footer-note">MLP + sinusoidal time embedding (TF.js). Rebuild resets weights.</p>
+          <p class="footer-note">MLP + time embedding. LDM also builds encoder/decoder + latent denoisers.</p>
         </div>
       </aside>
 
-      <!-- Center stage -->
       <section class="stage">
         <div class="stage-toolbar">
           <button class="sm primary" id="btnSample" type="button">Sample</button>
@@ -114,21 +120,23 @@
           <div class="draw-hint" id="drawHint">Click & drag to draw a distribution, then Train</div>
         </div>
         <div class="legend">
-          <span class="data">Data</span>
+          <span class="data">Data / latent data</span>
           <span class="gen">Generated</span>
-          <span class="field">Vector field</span>
+          <span class="field">Vector / score field</span>
           <span class="traj">Trajectories</span>
         </div>
       </section>
 
-      <!-- Right panel -->
       <aside class="panel right">
         <h2>Display</h2>
         <div class="section">
           <label class="toggle"><input type="checkbox" id="togData" checked /> Show data</label>
           <label class="toggle"><input type="checkbox" id="togGen" checked /> Show generated</label>
-          <label class="toggle"><input type="checkbox" id="togField" /> Vector field</label>
+          <label class="toggle"><input type="checkbox" id="togField" /> Vector / score field</label>
           <label class="toggle"><input type="checkbox" id="togTraj" /> Trajectories</label>
+          <div id="latentToggleRow" style="display:none;margin-top:8px">
+            <label class="toggle"><input type="checkbox" id="togLatent" /> Show latent space (z)</label>
+          </div>
           <label class="field" style="margin-top:10px">
             Field time t <span class="value" id="fieldTRangeVal">0.5</span>
             <input type="range" id="fieldTRange" min="0" max="1" step="0.05" value="0.5" />
@@ -152,20 +160,16 @@
           <canvas id="lossChart"></canvas>
         </div>
 
-        <h2>About</h2>
+        <h2>Families covered</h2>
         <div class="section info-box">
-          <p><strong>DiffLab</strong> is a browser playground for the geometry of generative diffusion.</p>
-          <p style="margin-top:8px">
-            Switch between <code>Flow Matching</code> (predict velocity <code>v</code>) and
-            <code>DDPM</code> (predict noise <code>ε</code>) on the same 2D data.
-            Watch samples, fields, and trajectories evolve as the model trains.
-          </p>
-          <p style="margin-top:8px">
-            Inspired by <a href="https://github.com/poloclub/ganlab" target="_blank" rel="noopener">GAN Lab</a>
-            and <a href="https://github.com/helblazer811/Diffusion-Explorer" target="_blank" rel="noopener">Diffusion Explorer</a>.
-          </p>
-          <p class="footer-note">
-            All computation runs locally via TensorFlow.js. No data leaves your browser.
+          <p><strong>DDPM</strong> — noise / x₀ prediction, discrete Markov chain</p>
+          <p style="margin-top:6px"><strong>Flow Matching</strong> — velocity field, OT paths, ODE sampling</p>
+          <p style="margin-top:6px"><strong>Score-based</strong> — ∇log p, VE-SDE & VP-SDE (Song et al.)</p>
+          <p style="margin-top:6px"><strong>LDM</strong> — autoencoder + diffusion/FM in latent z (Stable Diffusion style)</p>
+          <p class="footer-note" style="margin-top:10px">
+            Inspired by <a href="https://github.com/poloclub/ganlab" target="_blank" rel="noopener">GAN Lab</a>,
+            <a href="https://github.com/helblazer811/Diffusion-Explorer" target="_blank" rel="noopener">Diffusion Explorer</a>,
+            and <a href="https://poloclub.github.io/diffusion-explainer" target="_blank" rel="noopener">Diffusion Explainer</a>.
           </p>
         </div>
       </aside>

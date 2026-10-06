@@ -437,3 +437,7 @@ button.sm { padding: 5px 9px; font-size: 12px; }
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+.info-box .muted, .muted { color: var(--text-muted); font-size: 11px; }
+.chip-group .chip { font-size: 11px; }
+

@@ -1,81 +1,66 @@
 # DiffLab
 
-**An Interactive, Visual Experimentation Tool for Diffusion Models & Flow Matching**
+**An Interactive, Visual Experimentation Tool for Diffusion, Score-based Models & Latent Diffusion**
 
-Inspired by [GAN Lab](https://github.com/poloclub/ganlab) (Polo Club of Data Science).  
-DiffLab lets you **train and explore** Denoising Diffusion Probabilistic Models (DDPM), Flow Matching, and velocity / score parameterizations **live in your browser** on 2D toy distributions — no install, no GPU required.
+Inspired by [GAN Lab](https://github.com/poloclub/ganlab).  
+Train and explore **DDPM**, **Flow Matching**, **Score-based Generative Models (VE/VP SDE)**, and **Latent Diffusion Models (LDMs)** live in your browser on 2D distributions.
 
 <p align="center">
   <a href="https://karimiannima.github.io/DiffLab/"><strong>🚀 Live Demo</strong></a>
   &nbsp;·&nbsp;
-  <a href="#features"><strong>Features</strong></a>
-  &nbsp;·&nbsp;
-  <a href="#concepts"><strong>Concepts</strong></a>
+  <a href="docs/CONCEPTS.md"><strong>Concepts</strong></a>
   &nbsp;·&nbsp;
   <a href="#run-locally"><strong>Run locally</strong></a>
 </p>
 
 ---
 
-## Overview
+## What’s inside (v1.1)
 
-Modern generative models (Stable Diffusion, FLUX, SD3, video models, robot policies, …) are built on **diffusion** or **flow matching**.  
-They look different on paper, but under Gaussian paths they are two sides of the same coin:
+| Family | What you train | Sampling |
+|--------|----------------|----------|
+| **Flow Matching** | velocity **v** on linear OT path | ODE (Euler) |
+| **DDPM** | noise **ε** or **x₀** | ancestral reverse chain |
+| **Score DSM** | score ∇log p via denoising score matching | DDPM-style |
+| **Score VE-SDE** | continuous score, variance-exploding SDE (Song et al.) | reverse SDE + Langevin |
+| **Score VP-SDE** | continuous score, variance-preserving SDE | reverse SDE |
+| **LDM · latent DDPM** | autoencoder **E/D** + **ε**-diffusion in **z** | denoise **z**, decode **x=D(z)** |
+| **LDM · latent FM** | autoencoder + velocity in latent | ODE in **z**, decode |
 
-| Framework | Network predicts | Sampling | Paths |
-|-----------|------------------|----------|--------|
-| **DDPM** | noise ε (or score ∇log p) | reverse SDE / DDIM | curved (variance-preserving) |
-| **Flow Matching** | velocity **v** | ODE (Euler / Heun) | often straight (OT) |
-| **v-prediction** | velocity (Karras / EDM style) | ODE | depends on schedule |
+### Visual tools
+- Data vs generated clouds  
+- **Vector / score fields**  
+- Sample **trajectories**  
+- Forward noising (data space or **latent** for LDM)  
+- Reverse generation animation  
+- **Show latent space (z)** toggle for LDMs  
+- Freehand **draw-your-own** distribution  
+- Loss chart, schedules (linear / cosine)
 
-DiffLab makes the geometry visible: **forward noising**, **learned vector fields**, **sample trajectories**, and **side-by-side DDPM vs Flow Matching** training on the same 2D data.
-
-Everything runs client-side with **TensorFlow.js** (WebGL). Open a browser and play.
-
----
-
-## Features
-
-- **Live in-browser training** of small MLPs on 2D point clouds
-- **Objectives**
-  - DDPM noise prediction (ε)
-  - Flow Matching / Conditional Flow Matching (velocity **v**)
-  - Score / denoising score matching
-  - x₀ prediction
-- **Datasets**: rings, moons, spiral, Swiss roll, checker, Gaussian mixture, **draw your own**
-- **Visualizations**
-  - Data vs generated samples
-  - Forward diffusion animation
-  - Reverse / flow sampling animation
-  - Vector field overlay
-  - Sample trajectories
-  - Loss curve
-- **Controls**: learning rate, batch size, timesteps T, noise schedule (linear / cosine), network width/depth, training speed
-- **Compare modes**: switch objectives without reloading; reset / reseed
-- **Pure static site** — works on GitHub Pages
+Everything runs **client-side** with **TensorFlow.js** (WebGL). No server GPU required.
 
 ---
 
-## Concepts covered
+## Concepts at a glance
 
-1. **Forward process** \( q(x_t \mid x_0) \) — gradual Gaussian noising  
-2. **DDPM reverse process** — predict ε, step back with schedule  
-3. **Probability-flow ODE / DDIM** — deterministic sibling of DDPM  
-4. **Flow Matching** — regress velocity field along a chosen path (linear OT path)  
-5. **Equivalence** — Gaussian FM ↔ diffusion under reparameterization (ε ↔ v ↔ score)  
-6. **Noise schedules** — linear β vs cosine  
-7. **Straight vs curved paths** — why FM often needs fewer steps  
+### Score-based generative models
+Learn \( s_\theta(x,t) \approx \nabla_x \log p_t(x) \) with denoising score matching, then sample with reverse SDEs (VE / VP) or probability-flow ODEs. DiffLab exposes **VE-SDE**, **VP-SDE**, and discrete **DSM**.
 
-Educational companion reading:
-- [Diffusion Meets Flow Matching](https://diffusionflow.github.io/)
-- [Diffusion Explorer](https://github.com/helblazer811/Diffusion-Explorer) (Polo Chau lab)
-- [GAN Lab](https://github.com/poloclub/ganlab)
+### Latent Diffusion Models (LDMs)
+As in **Stable Diffusion** (Rombach et al.):
+
+```
+x  --E-->  z  --diffuse/FM-->  ẑ  --D-->  x̂
+```
+
+DiffLab trains a tiny MLP autoencoder jointly with a latent denoiser (DDPM or Flow Matching). Toggle **Show latent space** to inspect the **z** cloud.
+
+### Equivalence
+Under Gaussian paths, diffusion, score matching, and flow matching are closely related reparameterizations (ε ↔ score ↔ v). See [diffusionflow.github.io](https://diffusionflow.github.io/) and `docs/CONCEPTS.md`.
 
 ---
 
 ## Run locally
-
-### Option A — zero build (recommended)
 
 ```bash
 git clone https://github.com/karimiannima/DiffLab.git
@@ -84,23 +69,11 @@ python -m http.server 8080
 # open http://localhost:8080
 ```
 
-Or with Node:
-
-```bash
-npx serve .
-```
-
-### Option B — npm scripts
-
-```bash
-npm install
-npm start          # static server on :8080
-```
+Or: `npm start` / `npx serve .`
 
 ### GitHub Pages
-
-Settings → Pages → Deploy from branch `main` / root (or `/docs`).  
-The demo is a static `index.html` + ES modules.
+Settings → Pages → branch `main` / root →  
+https://karimiannima.github.io/DiffLab/
 
 ---
 
@@ -108,56 +81,44 @@ The demo is a static `index.html` + ES modules.
 
 ```
 DiffLab/
-├── index.html              # App shell
-├── css/styles.css          # UI
+├── index.html
+├── css/styles.css
 ├── src/
-│   ├── main.js             # Bootstrap & training loop
+│   ├── main.js
 │   ├── models/
-│   │   ├── network.js      # MLP with time embedding (TF.js)
-│   │   ├── ddpm.js         # DDPM / ε-prediction + sampling
-│   │   ├── flow_matching.js# Conditional Flow Matching (velocity)
-│   │   └── schedules.js    # β / ᾱ / cosine schedules
-│   ├── data/
-│   │   └── datasets.js     # Toy 2D distributions + freehand draw
-│   ├── viz/
-│   │   ├── canvas_viz.js   # Points, trajectories, vector field
-│   │   └── charts.js       # Loss chart
-│   └── ui/
-│       └── controls.js     # Panels & event wiring
-├── LICENSE
-└── README.md
+│   │   ├── network.js          # time-conditioned MLP
+│   │   ├── schedules.js        # β / cosine / FM path
+│   │   ├── ddpm.js             # ε / x₀ / DSM + sampling
+│   │   ├── flow_matching.js    # velocity CFM
+│   │   ├── score_sde.js        # VE / VP score SDEs
+│   │   └── ldm.js              # AE + latent DDPM/FM
+│   ├── data/datasets.js
+│   └── viz/                    # canvas + loss chart
+└── docs/CONCEPTS.md
 ```
-
----
-
-## How to use the demo
-
-1. Pick a **dataset** (or draw one).  
-2. Choose an **objective**: DDPM (ε), Flow Matching (v), Score, or x₀.  
-3. Hit **Train**. Watch loss and the generated cloud morph toward the data.  
-4. Toggle **vector field** and **trajectories** to see geometry.  
-5. Use **Sample** / **Forward** to scrub the generative process.  
-6. Switch objective and retrain — same data, different geometry.
 
 ---
 
 ## Citation / inspiration
 
-If you use DiffLab in teaching or research, please also cite the works that inspired it:
-
 ```
 @article{kahng2019ganlab,
   title={GAN Lab: Understanding Complex Deep Generative Models using Interactive Visual Experimentation},
   author={Kahng, Minsuk and Thorat, Nikhil and Chau, Duen Horng and Viégas, Fernanda and Wattenberg, Martin},
-  journal={IEEE TVCG},
-  year={2019}
+  journal={IEEE TVCG}, year={2019}
 }
-
+@inproceedings{song2021score,
+  title={Score-Based Generative Modeling through Stochastic Differential Equations},
+  author={Song, Yang and others}, booktitle={ICLR}, year={2021}
+}
+@inproceedings{rombach2022ldm,
+  title={High-Resolution Image Synthesis with Latent Diffusion Models},
+  author={Rombach, Robin and others}, booktitle={CVPR}, year={2022}
+}
 @article{helbling2025diffusionexplorer,
   title={Diffusion Explorer: Interactive Exploration of Diffusion Models},
   author={Helbling, Alec and Chau, Duen Horng},
-  journal={arXiv:2507.01178},
-  year={2025}
+  journal={arXiv:2507.01178}, year={2025}
 }
 ```
 
@@ -167,10 +128,4 @@ If you use DiffLab in teaching or research, please also cite the works that insp
 
 MIT — see [LICENSE](LICENSE).
 
----
-
-## Author
-
-**Nima Karimian** — [github.com/karimiannima](https://github.com/karimiannima)
-
-Built as an open educational companion to GAN Lab for the diffusion / flow-matching era.
+**Author:** [Nima Karimian](https://github.com/karimiannima)
