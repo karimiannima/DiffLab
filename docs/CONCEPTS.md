@@ -91,4 +91,3 @@ Under Gaussian paths many of these are **reparameterizations** of the same gener
 - Song et al., Score SDE (ICLR 2021)
 - Lipman et al., Flow Matching (ICLR 2023)
 - Rombach et al., Latent Diffusion / Stable Diffusion (CVPR 2022)
-- Kahng et al., GAN Lab (IEEE TVCG 2019)
