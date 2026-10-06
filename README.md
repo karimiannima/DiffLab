@@ -72,6 +72,8 @@ python -m http.server 8080
 Or: `npm start` / `npx serve .`
 
 ### GitHub Pages
+
+> **404 on the demo link?** See [docs/PAGES.md](docs/PAGES.md) — you must set **Settings → Pages → Source** once (GitHub Actions or branch `main` / root).
 Settings → Pages → branch `main` / root →  
 https://karimiannima.github.io/DiffLab/
 
