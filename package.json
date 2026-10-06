@@ -1,0 +1,30 @@
+{
+  "name": "difflab",
+  "version": "1.0.0",
+  "description": "Interactive visual experimentation tool for Diffusion Models & Flow Matching (DDPM, velocity, score) — inspired by GAN Lab",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "serve": "npx --yes serve -l 8080 .",
+    "pages": "echo 'Push to main and enable GitHub Pages (root)'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karimiannima/DiffLab.git"
+  },
+  "keywords": [
+    "diffusion",
+    "ddpm",
+    "flow-matching",
+    "tensorflow.js",
+    "visualization",
+    "education",
+    "generative-models"
+  ],
+  "author": "Nima Karimian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karimiannima/DiffLab/issues"
+  },
+  "homepage": "https://karimiannima.github.io/DiffLab/"
+}
