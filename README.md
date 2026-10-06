@@ -114,7 +114,7 @@ DiffLab/
 
 ---
 
-## Citation / inspiration
+## Citation
 
 ```
 }
