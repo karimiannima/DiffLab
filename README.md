@@ -2,14 +2,13 @@
 
 **An Interactive, Visual Experimentation Tool for Diffusion, Score-based Models & Latent Diffusion**
 
-Inspired by [GAN Lab](https://github.com/poloclub/ganlab).  
 
 > ## ⚠️ Demo URL 404?
 >
 > **`https://karimiannima.github.io/DiffLab/` only works if this repository is Public and Pages is enabled.**
 >
 > 1. **Settings → General → Danger zone → Change visibility → Public**
-> 2. **Settings → Pages → Source → `Deploy from a branch` → `main` / `/ (root)` → Save**  
+> 2. **Settings → Pages → Source → `Deploy from a branch` → `main` / `/ (root)` → Save**
 >    *(or Source → GitHub Actions, then run the “Deploy DiffLab to GitHub Pages” workflow)*
 > 3. Wait 1–2 minutes, hard-refresh the demo link.
 >
@@ -18,7 +17,9 @@ Inspired by [GAN Lab](https://github.com/poloclub/ganlab).
 Train and explore **DDPM**, **Flow Matching**, **Score-based Generative Models (VE/VP SDE)**, and **Latent Diffusion Models (LDMs)** live in your browser on 2D distributions.
 
 <p align="center">
-  <a href="https://karimiannima.github.io/DiffLab/"><strong>🚀 Live Demo</strong></a>
+  <a href="https://raw.githack.com/karimiannima/DiffLab/main/index.html"><strong>🚀 Live Demo (works now)</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://karimiannima.github.io/DiffLab/"><strong>GitHub Pages</strong></a>
   &nbsp;·&nbsp;
   <a href="docs/CONCEPTS.md"><strong>Concepts</strong></a>
   &nbsp;·&nbsp;
@@ -40,13 +41,13 @@ Train and explore **DDPM**, **Flow Matching**, **Score-based Generative Models (
 | **LDM · latent FM** | autoencoder + velocity in latent | ODE in **z**, decode |
 
 ### Visual tools
-- Data vs generated clouds  
-- **Vector / score fields**  
-- Sample **trajectories**  
-- Forward noising (data space or **latent** for LDM)  
-- Reverse generation animation  
-- **Show latent space (z)** toggle for LDMs  
-- Freehand **draw-your-own** distribution  
+- Data vs generated clouds
+- **Vector / score fields**
+- Sample **trajectories**
+- Forward noising (data space or **latent** for LDM)
+- Reverse generation animation
+- **Show latent space (z)** toggle for LDMs
+- Freehand **draw-your-own** distribution
 - Loss chart, schedules (linear / cosine)
 
 Everything runs **client-side** with **TensorFlow.js** (WebGL). No server GPU required.
@@ -86,7 +87,7 @@ Or: `npm start` / `npx serve .`
 ### GitHub Pages
 
 > **404 on the demo link?** See [docs/PAGES.md](docs/PAGES.md) — you must set **Settings → Pages → Source** once (GitHub Actions or branch `main` / root).
-Settings → Pages → branch `main` / root →  
+Settings → Pages → branch `main` / root →
 https://karimiannima.github.io/DiffLab/
 
 ---
@@ -116,10 +117,6 @@ DiffLab/
 ## Citation / inspiration
 
 ```
-@article{kahng2019ganlab,
-  title={GAN Lab: Understanding Complex Deep Generative Models using Interactive Visual Experimentation},
-  author={Kahng, Minsuk and Thorat, Nikhil and Chau, Duen Horng and Viégas, Fernanda and Wattenberg, Martin},
-  journal={IEEE TVCG}, year={2019}
 }
 @inproceedings{song2021score,
   title={Score-Based Generative Modeling through Stochastic Differential Equations},
