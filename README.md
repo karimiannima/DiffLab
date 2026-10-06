@@ -3,16 +3,6 @@
 **An Interactive, Visual Experimentation Tool for Diffusion, Score-based Models & Latent Diffusion**
 
 
-> ## ⚠️ Demo URL 404?
->
-> **`https://karimiannima.github.io/DiffLab/` only works if this repository is Public and Pages is enabled.**
->
-> 1. **Settings → General → Danger zone → Change visibility → Public**
-> 2. **Settings → Pages → Source → `Deploy from a branch` → `main` / `/ (root)` → Save**
->    *(or Source → GitHub Actions, then run the “Deploy DiffLab to GitHub Pages” workflow)*
-> 3. Wait 1–2 minutes, hard-refresh the demo link.
->
-> Until the repo is **Public**, GitHub returns **404 File not found** for both the repo page and Pages (this is expected for private repos on free accounts).
 
 Train and explore **DDPM**, **Flow Matching**, **Score-based Generative Models (VE/VP SDE)**, and **Latent Diffusion Models (LDMs)** live in your browser on 2D distributions.
 
