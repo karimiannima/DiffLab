@@ -82,6 +82,17 @@ https://karimiannima.github.io/DiffLab/
 
 ---
 
+## Python demo
+
+[`examples/flow_score_demo`](examples/flow_score_demo) is a NumPy script for the same two targets: variance-preserving score diffusion (ε-prediction, DDIM / probability-flow step) and conditional flow matching (straight interpolant, Euler). It also writes the Song-style ribbon — forward SDE, reverse SDE, and the probability-flow ODE — plus the lecture deck.
+
+```bash
+cd examples/flow_score_demo
+python demo_flow_score.py
+```
+
+---
+
 ## Project structure
 
 ```
@@ -99,7 +110,8 @@ DiffLab/
 │   │   └── ldm.js              # AE + latent DDPM/FM
 │   ├── data/datasets.js
 │   └── viz/                    # canvas + loss chart
-└── docs/CONCEPTS.md
+├── docs/CONCEPTS.md
+└── examples/flow_score_demo/   # NumPy score + flow matching demo
 ```
 
 ---
@@ -107,7 +119,6 @@ DiffLab/
 ## Citation
 
 ```
-}
 @inproceedings{song2021score,
   title={Score-Based Generative Modeling through Stochastic Differential Equations},
   author={Song, Yang and others}, booktitle={ICLR}, year={2021}
